@@ -1,80 +1,133 @@
-# 📘 Bookstore Back - Repositorio de Referencia
+# 📚 Bookstore Backend/Frontend
 
-Este repositorio contiene la **versión final esperada** de los proyectos del curso de Desarrollo de Software en Equipos desarrollado en **Spring Boot**, así como las distintas etapas intermedias para guiar paso a paso el desarrollo por parte de los equipos.
+La aplicación funciona como un CRUD de autores donde el backend en Spring Boot expone una API REST en http://localhost:8080/api/authors y el frontend en Next.js consume esa API para listar, crear, editar y eliminar autores, gestionando el estado de manera global con un Context de React. 
 
 ---
 
 ## 🎯 Objetivo
 
-Servir como **referencia** para que los equipos:
+Proveer una interfaz web moderna para gestionar **autores** de una librería, permitiendo:
 
-- Entiendan cómo debe lucir el estado final del proyecto.
-- Consulten ejemplos de implementación.
-- Sigan el paso a paso del desarrollo guiado a través de ramas progresivas.
-- Descarguen versiones específicas desde la sección de _Releases_.
-- **NO** debe usarse como herramienta para copiar y pegar en el código desarrollado en sus proyectos grupales.
+- Visualizar el listado de autores registrados
+- Crear nuevos autores
+- Editar la información de un autor existente
+- Eliminar autores del sistema
 
 ---
 
-## 📁 Estructura del Repositorio
+## 🛠️ Tecnologías Utilizadas
 
-- Cada rama representa un avance progresivo en el desarrollo del proyecto.
+| Tecnología | Uso |
+|------------|-----|
+| Next.js 15 | Framework de React para el frontend |
+| React | Librería de componentes UI |
+| CSS Modules | Estilos por componente |
+| Context API | Manejo del estado global |
+| Docker | Contenedor del backend |
 
-- Puedes navegar entre ramas para consultar o clonar una versión específica según el punto en el que te encuentres.
+---
 
-```plaintext
-├── main                # Rama principal con el estado final completo
-├── persistencia        # Primera etapa de desarrollo del proyecto
-├── logica              # Continuación a persistencia añadiendo lógica y pruebas
-└── ...
+## 📁 Estructura del Proyecto
+
+```
+bookstore-front/
+├── components/
+│   ├── AuthorCard.js       # Tarjeta de autor (editar/eliminar)
+│   └── AuthorForm.js       # Formulario de creación y edición
+├── context/
+│   └── AuthorsContext.js   # Estado global y llamadas a la API
+├── hooks/
+│   └── useAuthors.js       # Hook para acceder al contexto
+├── pages/
+│   ├── authors.js          # Página principal de autores
+│   ├── crear.js            # Página de creación de autor
+│   └── editar/[id].js      # Página de edición de autor
+├── styles/
+│   ├── globals.css         # Estilos globales
+│   ├── Card.module.css     # Estilos de la tarjeta
+│   ├── Form.module.css     # Estilos del formulario
+│   └── Authors.module.css  # Estilos de la página principal
+└── public/                 # Archivos estáticos
 ```
 
-| Paso | Nombre Rama          | Descripción                                                                             | Rama                                                                                                  | Release                                                                             |
-| ---- | -------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-|      | main                 | Rama principal con el estado final completo                                             | [main](https://github.com/Uniandes-isis2603/bookstore-back)                                           | [Release](https://github.com/Uniandes-isis2603/bookstore-back)                      |
-| 1°   | persistencia         | Implementación de la persistencia de las entidades del proyecto                         | [persistencia](https://github.com/Uniandes-isis2603/bookstore-back/tree/persistencia)                 | [Release](https://github.com/Uniandes-isis2603/bookstore-back/releases/tag/v.1.0.0) |
-| 2°   | logica-entidades     | Implementacion de los servicios y las reglas de negocio de las entidades                | [logica-entidades](https://github.com/Uniandes-isis2603/bookstore-back/tree/Logica-entidades)         | [Release](https://github.com/Uniandes-isis2603/bookstore-back/releases/tag/v.2.0.0) |
-| 3°   | pruebas-entidades    | Implementación de las pruebas unitarias de la lógica creada en el paso 2°               | [pruebas-entidades](https://github.com/Uniandes-isis2603/bookstore-back/tree/pruebas-entidades)       | [Release](https://github.com/Uniandes-isis2603/bookstore-back/releases/tag/v.2.0.5) |
-| 4°   | logica-asociaciones  | Implementación de los servicios y reglas de negocio de las asociaciones entre entidades | [logica-asociaciones](https://github.com/Uniandes-isis2603/bookstore-back/tree/logica-asociaciones)   | [Release](https://github.com/Uniandes-isis2603/bookstore-back/releases/tag/v.3.0.0) |
-| 5°   | pruebas-asociaciones | Implementación de las pruebas unitarias de la lógica creada en el paso 4°               | [pruebas-asociaciones](https://github.com/Uniandes-isis2603/bookstore-back/tree/pruebas-asociaciones) | [Release](https://github.com/Uniandes-isis2603/bookstore-back/releases/tag/v.3.0.5) |
+---
 
-## 🚀 ¿Cómo usar este repositorio?
+## 🚀 ¿Cómo correr el proyecto?
 
-1. **Clona el repositorio**
+### Requisitos previos
+
+- Node.js instalado
+- Docker instalado
+- Backend (`bookstore-back`) disponible como imagen Docker
+
+### 1. Levantar el backend
 
 ```bash
-   git clone https://github.com/Uniandes-isis2603/bookstore-back.git
-   cd bookstore-back
+# Si el contenedor ya existe
+docker start bookstore-back-app
+
+# Si es la primera vez
+docker run -it --name bookstore-back-app -p 8080:8080 bookstore-back-image
 ```
 
-2. **Cambia a una rama específica**
+Verifica que el backend esté corriendo:
+```bash
+curl http://localhost:8080/api/authors
+```
+
+### 2. Instalar dependencias del frontend
 
 ```bash
-   git checkout persistencia
+cd bookstore-front
+npm install
 ```
 
-> 💡 Usa git branch -a para ver todas las ramas disponibles.
+### 3. Correr en modo desarrollo
 
-3. **Descarga un release específico**
+```bash
+npm run dev
+```
 
-También puedes descargar una versión lista para usar desde la sección [Releases](https://github.com/Uniandes-isis2603/bookstore-back/releases):
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-- Cada release está asociado a una rama del paso a paso.
+### 4. Correr en modo producción
 
-- Contiene el código en un archivo _.zip_ o _.tar.gz_ para que lo abras directamente en tu IDE.
+```bash
+npm run build
+npm start
+```
 
-## 📌 Recomendaciones para los Equipos
+---
 
-Usa las ramas como referencia para entender el flujo de construcción del proyecto.
+## 🔗 Conexión con el Backend
 
-Asegúrate de avanzar paso a paso, entendiendo cada modificación entre ramas.
+El frontend se comunica con el backend en:
 
-Consulta la rama main **únicamente** como ejemplo de implementación final.
+```
+http://localhost:8080/api/authors
+```
 
-## 🧑‍🏫 Recursos Adicionales
+Esto está configurado en `context/AuthorsContext.js`. Asegúrate de que el backend esté corriendo en el puerto `8080` antes de iniciar el frontend.
 
-- Documentación oficial de [Spring Boot](https://spring.io/projects/spring-boot)
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/authors` | Obtener todos los autores |
+| POST | `/api/authors` | Crear un nuevo autor |
+| PUT | `/api/authors/:id` | Editar un autor |
+| DELETE | `/api/authors/:id` | Eliminar un autor |
 
-- Wiki del curso [Recursos-isis2603](https://github.com/Uniandes-isis2603/recursos-isis2603/wiki)
+---
 
-- Como desplegar [Back-End con docker](https://misovirtual.virtual.uniandes.edu.co/codelabs/MISW4104_202212_DeployBackDocker/index.html#0)
+## ⚠️ Problemas Comunes
+
+**Error: container name already in use**
+```bash
+docker rm -f bookstore-back-app
+docker run -it --name bookstore-back-app -p 8080:8080 bookstore-back-image
+```
+
+**Error: could not find a production build**
+```bash
+npm run build
+npm start
+```

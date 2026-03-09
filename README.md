@@ -96,6 +96,16 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 npm run build
 npm start
 ```
+### 5. Pruebas Frontend 
+1. Para esto, instalamos las dependencias
+``` bash
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom
+```
+2. Dentro del directorio del front ```(.../bookstore-front)``` usamos el siguiente comando:
+
+```bash 
+npm test
+```
 
 ---
 

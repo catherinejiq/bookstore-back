@@ -10,9 +10,24 @@ export default function AuthorForm({ initialData, onSubmit }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-
-    // Limpiar error del campo cuando el usuario empiece a corregir
-    setErrors((prev) => ({ ...prev, [name]: undefined }));
+  
+    const newErrors = { ...errors };
+    if (name === "name") {
+      if (!value || value.trim().length < 3)
+        newErrors.name = "El nombre debe tener al menos 3 caracteres.";
+      else delete newErrors.name;
+    }
+    if (name === "description") {
+      if (!value || value.trim().length < 10)
+        newErrors.description = "La descripción debe tener al menos 10 caracteres.";
+      else delete newErrors.description;
+    }
+    if (name === "birthDate") {
+      if (!value)
+        newErrors.birthDate = "La fecha de nacimiento es requerida.";
+      else delete newErrors.birthDate;
+    }
+    setErrors(newErrors);
   };
 
   const validate = () => {
@@ -36,6 +51,7 @@ export default function AuthorForm({ initialData, onSubmit }) {
     setErrors({});
     onSubmit(form);
   };
+
 
   const isDisabled =
     !form.name        || form.name.trim().length < 3 ||

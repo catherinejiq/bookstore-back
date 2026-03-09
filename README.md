@@ -50,7 +50,12 @@ bookstore-front/
 └── public/                 # Archivos estáticos
 ```
 
----
+
+## Reporte de cambios
+
+Para la persistencia de datos entre rutas se utilizó Context API, donde AuthorsContext almacena el estado global de los autores y lo comparte con todas las páginas a través de AuthorsProvider montado en _app.js. Esto permite que al navegar entre /authors, /crear y /editar/[id] los datos no se pierdan ni se vuelvan a pedir al backend innecesariamente.
+Para el filtrado, se usó un estado query que guarda el texto del buscador, y la lista filtrada se calcula directamente en el render con .filter() y .toLowerCase() sobre el arreglo del contexto, sin necesidad de un estado adicional.
+
 
 ## 🚀 ¿Cómo correr el proyecto?
 
